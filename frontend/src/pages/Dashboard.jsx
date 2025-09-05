@@ -18,7 +18,6 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import "./Dashboard.css"; // ✅ Import CSS
 
 // Fix Leaflet default marker issue
 delete L.Icon.Default.prototype._getIconUrl;
@@ -34,10 +33,11 @@ export default function Dashboard() {
   const [vehicles, setVehicles] = useState([]);
   const [trafficData, setTrafficData] = useState([]);
   const [finesData, setFinesData] = useState([]);
-  const [alerts, setAlerts] = useState([]); // 🚨 live alerts
-  const [violationStats, setViolationStats] = useState([]); // 🍩 donut data
+  const [alerts, setAlerts] = useState([]);
+  const [violationStats, setViolationStats] = useState([]);
 
-  // Fetch violation type stats
+  const COLORS = ["#ff4d4f", "#1890ff", "#faad14", "#722ed1", "#13c2c2"];
+
   useEffect(() => {
     async function fetchViolationStats() {
       try {
@@ -51,7 +51,6 @@ export default function Dashboard() {
     fetchViolationStats();
   }, []);
 
-  // Socket listeners
   useEffect(() => {
     if (!socket || !isConnected) return;
 
@@ -81,23 +80,26 @@ export default function Dashboard() {
     };
   }, [socket, isConnected]);
 
-  const COLORS = ["#ff4d4f", "#1890ff", "#faad14", "#722ed1", "#13c2c2"];
-
   return (
-    <div className="dashboard-container">
-      <h2 className="dashboard-title">Live Traffic Dashboard</h2>
+    <div className="p-6 bg-gray-50 min-h-screen font-sans">
+      <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
+        Live Traffic Dashboard
+      </h2>
 
-      {/* Connection status */}
-      <p className={isConnected ? "status-connected" : "status-disconnected"}>
+      <p
+        className={`text-center font-medium mb-6 ${
+          isConnected ? "text-green-600" : "text-red-600"
+        }`}
+      >
         {isConnected ? "🟢 Connected to server" : "🔴 Disconnected"}
       </p>
 
       {/* Map */}
-      <div className="map-container">
+      <div className="w-full h-96 mb-6 rounded-xl overflow-hidden shadow-lg">
         <MapContainer
           center={[20.5937, 78.9629]}
           zoom={5}
-          className="map"
+          className="w-full h-full"
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -117,11 +119,13 @@ export default function Dashboard() {
         </MapContainer>
       </div>
 
-      {/* Charts row */}
-      <div className="charts-row">
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Congestion */}
-        <div className="chart-card">
-          <h3 className="chart-title">Congestion Levels</h3>
+        <div className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition">
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+            Congestion Levels
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
               data={trafficData.length ? trafficData : [{ time: "", congestion: 0 }]}
@@ -130,14 +134,16 @@ export default function Dashboard() {
               <XAxis dataKey="time" />
               <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="congestion" stroke="#8884d8" />
+              <Line type="monotone" dataKey="congestion" stroke="#6366f1" />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         {/* Fines */}
-        <div className="chart-card">
-          <h3 className="chart-title">Fines Collected</h3>
+        <div className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition">
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+            Fines Collected
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
               data={finesData.length ? finesData : [{ day: "", fines: 0 }]}
@@ -147,25 +153,23 @@ export default function Dashboard() {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="fines" fill="#82ca9d" />
+              <Bar dataKey="fines" fill="#34d399" />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      {/* Second row */}
-      <div className="charts-row">
-        {/* 🍩 Violation Types */}
-        <div className="chart-card">
-          <h3 className="chart-title">Violation Types</h3>
+      {/* Second Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Violation Types */}
+        <div className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition">
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+            Violation Types
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={
-                  violationStats.length
-                    ? violationStats
-                    : [{ name: "No Data", value: 1 }]
-                }
+                data={violationStats.length ? violationStats : [{ name: "No Data", value: 1 }]}
                 dataKey="value"
                 nameKey="name"
                 cx="50%"
@@ -173,12 +177,9 @@ export default function Dashboard() {
                 outerRadius={100}
                 label
               >
-                {(violationStats.length
-                  ? violationStats
-                  : [{ name: "No Data", value: 1 }]
-                ).map((_, i) => (
-                  <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                ))}
+                {(violationStats.length ? violationStats : [{ name: "No Data", value: 1 }]).map(
+                  (_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                )}
               </Pie>
               <Tooltip />
               <Legend />
@@ -186,16 +187,21 @@ export default function Dashboard() {
           </ResponsiveContainer>
         </div>
 
-        {/* 🚨 Live Alerts */}
-        <div className="alert-box">
-          <h3 className="chart-title">🚨 Live Violation Alerts</h3>
+        {/* Live Alerts */}
+        <div className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition max-h-[400px] overflow-y-auto">
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+            🚨 Live Violation Alerts
+          </h3>
           {alerts.length === 0 ? (
-            <p className="text-gray-600">No violations yet...</p>
+            <p className="text-gray-500">No violations yet...</p>
           ) : (
-            <ul className="alerts-list">
+            <ul className="space-y-3">
               {alerts.map((a, i) => (
-                <li key={i} className="alert-item">
-                  <div className="alert-content">
+                <li
+                  key={i}
+                  className="border border-gray-200 p-3 rounded-lg hover:bg-gray-50 transition"
+                >
+                  <div className="text-sm text-gray-700 space-y-1">
                     <span><b>Vehicle:</b> {a.vehicle}</span>
                     <span><b>Type:</b> {a.type}</span>
                     <span><b>Fine:</b> ₹{a.fine}</span>
