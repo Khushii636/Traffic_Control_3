@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
@@ -19,16 +20,36 @@ function PrivateRoute({ children }) {
   return user ? children : <Navigate to="/login" replace />;
 }
 
+// ✅ Layout to conditionally hide Navbar/Footer
+function Layout({ children }) {
+  const location = useLocation();
+  const hideNavFooter = ["/login", "/register"].includes(location.pathname);
+
+  return (
+    <>
+      {!hideNavFooter && <Navbar />}
+      <div className="p-4">{children}</div>
+      {!hideNavFooter && <Footer />}
+    </>
+  );
+}
+
 function App() {
   return (
     <AuthProvider>
       <Router>
-        {window.location.pathname !== "/login" && window.location.pathname !== "/register"}
-        <Navbar />
-        <div className="p-4">
+        <Layout>
           <Routes>
             <Route
               path="/"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
               element={
                 <PrivateRoute>
                   <Dashboard />
@@ -45,11 +66,9 @@ function App() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
-        </div>
+        </Layout>
       </Router>
-      <Footer />
     </AuthProvider>
   );
 }
