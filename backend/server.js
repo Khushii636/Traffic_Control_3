@@ -8,13 +8,14 @@ import connectDB from "./config/db.js";
 // Models
 import Vehicle from "./models/Vehicle.js";
 import Tracking from "./models/Tracking.js";
-import Violation from "./models/Violation.js";
+import Violation from "./models/Fine.js";
 
 // Routes
 import authRoutes from "./routes/authRoutes.js";
 import vehicleRoutes from "./routes/vehicleRoutes.js";
 import trackingRoutes from "./routes/trackingRoutes.js";
-import violationRoutes from "./routes/violationRoutes.js";
+import violationRoutes from "./routes/fineRoutes.js";
+import walletRoutes from "./routes/walletRoutes.js";
 // Load environment variables
 dotenv.config();
 
@@ -46,7 +47,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/tracking", trackingRoutes);
 app.use("/api/violations", violationRoutes);
-
+app.use("/api/wallet", walletRoutes);
 // Root endpoint
 app.get("/", (req, res) => {
   res.send("🚦 Traffic Control & Fleet Monitoring API is running...");

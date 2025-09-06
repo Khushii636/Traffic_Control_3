@@ -1,7 +1,11 @@
  import express from "express";
 import Vehicle from "../models/Vehicle.js";
-
+import { protect } from "../middleware/authMiddleware.js";
+import { isAdmin } from "../middleware/adminMiddleware.js";
+import { addVehicle, getMyVehicles, getVehicle, deleteVehicle, updateVehicle } from "../controllers/vehicleController.js";
 const router = express.Router();
+
+ 
 
 // Get all vehicles
 router.get("/", async (req, res) => {
@@ -39,5 +43,15 @@ router.delete("/:id", async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 });
+
+/* USER ROUTES */
+router.post("/register", protect, addVehicle);
+router.get("/get-my-vehicles", protect, getMyVehicles);
+
+/* ADMIN ROUTES */
+router.get("/get-vehicles", protect, isAdmin, getVehicle);
+router.delete("/delete-vehicle/:id", protect, isAdmin, deleteVehicle);
+router.put("/update-vehicle/:id", protect, isAdmin, updateVehicle);
+
 
 export default router;

@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import Hero from "../components/Hero";
 import { useEffect, useState } from "react";
 import useSocket from "../hooks/useSocket";
 import {
@@ -81,6 +82,7 @@ export default function Dashboard() {
   }, [socket, isConnected]);
 
   return (
+    <>
     <div className="p-6 bg-gray-50 min-h-screen font-sans">
       <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
         Live Traffic Dashboard
@@ -216,5 +218,6 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
+    </>
   );
 }
