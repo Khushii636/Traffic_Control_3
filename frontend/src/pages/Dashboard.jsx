@@ -37,7 +37,7 @@ export default function Dashboard() {
   const [alerts, setAlerts] = useState([]);
   const [violationStats, setViolationStats] = useState([]);
 
-  const COLORS = ["#ff4d4f", "#1890ff", "#faad14", "#722ed1", "#13c2c2"];
+  const COLORS = ["#3b82f6", "#22d3ee", "#f97316", "#a855f7", "#ef4444"];
 
   useEffect(() => {
     async function fetchViolationStats() {
@@ -82,22 +82,21 @@ export default function Dashboard() {
   }, [socket, isConnected]);
 
   return (
-    <>
-    <div className="p-6 bg-gray-50 min-h-screen font-sans">
-      <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
+    <div className="pt-16 p-8 bg-gradient-to-b from-[#0b1120] to-[#111827] min-h-screen font-sans text-white">
+      <h2 className="text-4xl font-extrabold text-center mb-2">
         Live Traffic Dashboard
       </h2>
 
       <p
-        className={`text-center font-medium mb-6 ${
-          isConnected ? "text-green-600" : "text-red-600"
+        className={`text-center font-medium mb-8 ${
+          isConnected ? "text-emerald-400" : "text-rose-500"
         }`}
       >
         {isConnected ? "🟢 Connected to server" : "🔴 Disconnected"}
       </p>
 
       {/* Map */}
-      <div className="w-full h-96 mb-6 rounded-xl overflow-hidden shadow-lg">
+      <div className="w-full h-96 mb-8 rounded-2xl overflow-hidden shadow-xl border border-slate-700">
         <MapContainer
           center={[20.5937, 78.9629]}
           zoom={5}
@@ -122,50 +121,50 @@ export default function Dashboard() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Congestion */}
-        <div className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-xl border border-slate-700 hover:shadow-blue-500/30 transition-all">
+          <h3 className="text-xl font-semibold mb-4 text-blue-400">
             Congestion Levels
           </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
               data={trafficData.length ? trafficData : [{ time: "", congestion: 0 }]}
             >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="time" />
-              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+              <XAxis dataKey="time" stroke="#94a3b8" />
+              <YAxis stroke="#94a3b8" />
               <Tooltip />
-              <Line type="monotone" dataKey="congestion" stroke="#6366f1" />
+              <Line type="monotone" dataKey="congestion" stroke="#3b82f6" />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         {/* Fines */}
-        <div className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-xl border border-slate-700 hover:shadow-blue-500/30 transition-all">
+          <h3 className="text-xl font-semibold mb-4 text-blue-400">
             Fines Collected
           </h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
               data={finesData.length ? finesData : [{ day: "", fines: 0 }]}
             >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="day" />
-              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+              <XAxis dataKey="day" stroke="#94a3b8" />
+              <YAxis stroke="#94a3b8" />
               <Tooltip />
               <Legend />
-              <Bar dataKey="fines" fill="#34d399" />
+              <Bar dataKey="fines" fill="#22d3ee" />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Second Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Violation Types */}
-        <div className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-xl border border-slate-700 hover:shadow-blue-500/30 transition-all">
+          <h3 className="text-xl font-semibold mb-4 text-blue-400">
             Violation Types
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -190,20 +189,20 @@ export default function Dashboard() {
         </div>
 
         {/* Live Alerts */}
-        <div className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition max-h-[400px] overflow-y-auto">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-xl border border-slate-700 hover:shadow-blue-500/30 transition-all max-h-[400px] overflow-y-auto">
+          <h3 className="text-xl font-semibold mb-4 text-blue-400">
             🚨 Live Violation Alerts
           </h3>
           {alerts.length === 0 ? (
-            <p className="text-gray-500">No violations yet...</p>
+            <p className="text-gray-400">No violations yet...</p>
           ) : (
             <ul className="space-y-3">
               {alerts.map((a, i) => (
                 <li
                   key={i}
-                  className="border border-gray-200 p-3 rounded-lg hover:bg-gray-50 transition"
+                  className="border border-slate-600 p-3 rounded-xl bg-[#0f172a] hover:bg-[#1e293b] transition-all"
                 >
-                  <div className="text-sm text-gray-700 space-y-1">
+                  <div className="text-sm text-gray-300 space-y-1">
                     <span><b>Vehicle:</b> {a.vehicle}</span>
                     <span><b>Type:</b> {a.type}</span>
                     <span><b>Fine:</b> ₹{a.fine}</span>
@@ -218,6 +217,5 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-    </>
   );
 }

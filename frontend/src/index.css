@@ -1,6 +1,8 @@
 @import "tailwindcss";
 /* index.css or App.css */
-
+body {
+  @apply bg-slate-900 text-slate-100; /* adjust colors as per your theme */
+}
 @layer base {
   :root {
     /* Core Background & Foreground */

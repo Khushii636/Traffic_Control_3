@@ -16,21 +16,15 @@ const Badge = ({ children, className = "" }) => {
 // ✅ Simple Button component
 const Button = ({ children, variant = "solid", size = "md", className = "" }) => {
   const base = "inline-flex items-center justify-center font-semibold rounded-2xl transition";
-  
+
   const sizes = {
     sm: "px-3 py-1.5 text-sm",
     md: "px-5 py-2 text-base",
     lg: "px-6 py-3 text-lg",
   };
 
-  const variants = {
-    solid: "bg-primary text-white hover:bg-primary/90",
-    outline: "border border-primary text-primary hover:bg-primary/10",
-    hero: "bg-gradient-to-r from-primary to-blue-500 text-white shadow-lg hover:opacity-90",
-  };
-
   return (
-    <button className={`${base} ${sizes[size]} ${variants[variant]} ${className}`}>
+    <button className={`${base} ${sizes[size]} ${className}`}>
       {children}
     </button>
   );
@@ -38,41 +32,39 @@ const Button = ({ children, variant = "solid", size = "md", className = "" }) =>
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
-      {/* Background Image with Overlay */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-gray-900 via-gray-950 to-black text-white">
+      {/* Background Image with Dark Overlay */}
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
           alt="Smart Mobility Device Dashboard"
-          className="w-full h-full object-cover opacity-30"
+          className="w-full h-full object-cover opacity-20"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
+        <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-10 animate-float opacity-20">
-        <div className="w-32 h-32 rounded-full bg-gradient-primary blur-xl" />
-      </div>
+      {/* Floating Neon Glow */}
+      <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-blue-500/20 blur-3xl animate-pulse opacity-30" />
       <div
-        className="absolute bottom-20 right-10 animate-float opacity-20"
+        className="absolute bottom-20 right-10 w-24 h-24 rounded-full bg-blue-400/20 blur-3xl animate-pulse opacity-30"
         style={{ animationDelay: "1s" }}
-      >
-        <div className="w-24 h-24 rounded-full bg-primary/30 blur-xl" />
-      </div>
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
         <div className="animate-slide-up">
-          <Badge className="mb-6 bg-primary/10 text-primary border-primary/20">
+          <Badge className="mb-6 bg-blue-900/20 text-blue-400 border-blue-700/30">
             <Zap className="w-4 h-4 mr-2" />
             Next-Gen Traffic Intelligence
           </Badge>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
             Smart Mobility
-            <span className="block gradient-text">Revolution</span>
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
+              Revolution
+            </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
             Transforming transportation with AI-driven traffic management,
             real-time monitoring, and intelligent safety systems for every
             vehicle.
@@ -80,13 +72,19 @@ const Hero = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link to="/dashboard">
-              <Button variant="hero" size="lg" className="group">
+              <Button
+                size="lg"
+                className="bg-blue-500 hover:bg-blue-400 text-white shadow-md shadow-blue-500/50 group"
+              >
                 Explore Dashboard
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
             <Link to="/features">
-              <Button variant="outline" size="lg">
+              <Button
+                size="lg"
+                className="bg-gray-800 text-white border border-gray-600 hover:bg-gray-700"
+              >
                 Learn More
               </Button>
             </Link>
@@ -94,16 +92,16 @@ const Hero = () => {
 
           {/* Feature Pills */}
           <div className="flex flex-wrap justify-center gap-4 text-sm">
-            <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-primary/20">
-              <Shield className="w-4 h-4 text-primary" />
+            <div className="flex items-center gap-2 bg-gray-800/60 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-700/50 text-gray-300">
+              <Shield className="w-4 h-4 text-blue-400" />
               <span>AI Safety Monitoring</span>
             </div>
-            <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-primary/20">
-              <Activity className="w-4 h-4 text-primary" />
+            <div className="flex items-center gap-2 bg-gray-800/60 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-700/50 text-gray-300">
+              <Activity className="w-4 h-4 text-blue-400" />
               <span>Real-time Analytics</span>
             </div>
-            <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-primary/20">
-              <MapPin className="w-4 h-4 text-primary" />
+            <div className="flex items-center gap-2 bg-gray-800/60 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-700/50 text-gray-300">
+              <MapPin className="w-4 h-4 text-blue-400" />
               <span>Dynamic Tolling</span>
             </div>
           </div>

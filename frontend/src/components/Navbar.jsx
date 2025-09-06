@@ -16,16 +16,17 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/40 backdrop-blur-xl border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-              <Car className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 rounded-lg bg-gray-800 flex items-center justify-center shadow-md shadow-blue-500/30">
+              <Car className="w-5 h-5 text-blue-400" />
             </div>
-            <span className="text-xl font-bold text-gray-800">SmartMobility</span>
-            {/* <span className="hidden md:inline-flex text-xs px-2 py-0.5 bg-gray-100 rounded-lg text-gray-600">
+            <span className="text-xl font-bold text-white">SmartMobility</span>
+            {/* optional version badge */}
+            {/* <span className="hidden md:inline-flex text-xs px-2 py-0.5 bg-gray-700 rounded-lg text-gray-300">
               v2.0
             </span> */}
           </Link>
@@ -36,8 +37,10 @@ const Navigation = () => {
               <Link
                 key={path}
                 to={path}
-                className={`text-sm font-medium hover:text-blue-600 transition-colors ${
-                  location.pathname === path ? "text-blue-600" : "text-gray-700"
+                className={`text-sm font-medium transition-colors ${
+                  location.pathname === path
+                    ? "text-blue-400"
+                    : "text-gray-300 hover:text-white"
                 }`}
               >
                 {name}
@@ -50,13 +53,13 @@ const Navigation = () => {
             <div className="hidden md:flex items-center gap-3">
               <Link
                 to="/login"
-                className="px-3 py-1.5 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+                className="px-3 py-1.5 text-sm font-medium text-gray-300 hover:text-white transition-colors"
               >
                 Log in
               </Link>
               <Link
                 to="/register"
-                className="px-4 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 py-1.5 text-sm font-medium text-black bg-white/90 rounded-lg hover:bg-white transition-colors shadow-md shadow-white/20"
               >
                 Get Started
               </Link>
@@ -65,7 +68,7 @@ const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-gray-800/50 transition-colors text-gray-200"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -75,14 +78,16 @@ const Navigation = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4">
+          <div className="md:hidden border-t border-gray-800 py-4 bg-gray-900/60 backdrop-blur-xl rounded-b-xl shadow-lg shadow-black/40">
             <div className="flex flex-col gap-4">
               {navLinks.map(({ name, path }) => (
                 <Link
                   key={path}
                   to={path}
-                  className={`text-sm font-medium hover:text-blue-600 transition-colors ${
-                    location.pathname === path ? "text-blue-600" : "text-gray-700"
+                  className={`text-sm font-medium transition-colors ${
+                    location.pathname === path
+                      ? "text-blue-400"
+                      : "text-gray-300 hover:text-white"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -95,14 +100,14 @@ const Navigation = () => {
                 <div className="flex gap-3 pt-2">
                   <Link
                     to="/login"
-                    className="flex-1 px-3 py-1.5 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors text-center"
+                    className="flex-1 px-3 py-1.5 text-sm font-medium text-gray-300 hover:text-white transition-colors text-center"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Sign In
                   </Link>
                   <Link
                     to="/register"
-                    className="flex-1 px-4 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors text-center"
+                    className="flex-1 px-4 py-1.5 text-sm font-medium text-black bg-white/90 rounded-lg hover:bg-white transition-colors text-center shadow-md shadow-white/20"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Get Started

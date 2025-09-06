@@ -44,7 +44,8 @@ function Layout({ children }) {
 // ✅ Main App
 function App() {
   return (
-    <AuthProvider>
+    <div className="">
+      <AuthProvider>
       <Router>
         <Layout>
           <Routes>
@@ -79,6 +80,8 @@ function App() {
         </Layout>
       </Router>
     </AuthProvider>
+    </div>
+    
   );
 }
 
