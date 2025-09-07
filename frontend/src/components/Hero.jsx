@@ -16,7 +16,7 @@ const Badge = ({ children, className = "" }) => {
 };
 
 // ✅ Simple Button component
-const Button = ({ children, variant = "solid", size = "md", className = "" }) => {
+const Button = ({ children, size = "md", className = "" }) => {
   const base = "inline-flex items-center justify-center font-semibold rounded-2xl transition";
 
   const sizes = {
