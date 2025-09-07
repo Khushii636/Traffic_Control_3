@@ -1,5 +1,7 @@
 import { ArrowRight, Zap, Shield, Activity, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext"; // ✅ import context
 import heroImage from "../assets/hero.jpg";
 
 // ✅ Simple Badge component
@@ -31,6 +33,8 @@ const Button = ({ children, variant = "solid", size = "md", className = "" }) =>
 };
 
 const Hero = () => {
+  const { user } = useContext(AuthContext); // ✅ check login state
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-gray-900 via-gray-950 to-black text-white">
       {/* Background Image with Dark Overlay */}
@@ -70,16 +74,32 @@ const Hero = () => {
             vehicle.
           </p>
 
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link to="/dashboard">
-              <Button
-                size="lg"
-                className="bg-blue-500 hover:bg-blue-400 text-white shadow-md shadow-blue-500/50 group"
-              >
-                Explore Dashboard
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
+            {!user ? (
+              // Show Log in button if not logged in
+              <Link to="/login">
+                <Button
+                  size="lg"
+                  className="bg-blue-500 hover:bg-blue-400 text-white shadow-md shadow-blue-500/50 group"
+                >
+                  Log in
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            ) : (
+              // Show Dashboard button if logged in
+              <Link to="/dashboard">
+                <Button
+                  size="lg"
+                  className="bg-blue-500 hover:bg-blue-400 text-white shadow-md shadow-blue-500/50 group"
+                >
+                  Explore Dashboard
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            )}
+
             <Link to="/features">
               <Button
                 size="lg"

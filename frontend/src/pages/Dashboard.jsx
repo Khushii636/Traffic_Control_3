@@ -1,7 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import Hero from "../components/Hero";
 import { useEffect, useState } from "react";
 import useSocket from "../hooks/useSocket";
 import {
@@ -82,7 +81,7 @@ export default function Dashboard() {
   }, [socket, isConnected]);
 
   return (
-    <div className="pt-16 p-8 bg-gradient-to-b from-[#0b1120] to-[#111827] min-h-screen font-sans text-white">
+    <div className="pt-24 p-8 bg-gradient-to-b from-[#0b1120] to-[#111827] min-h-screen font-sans text-white space-y-8">
       <h2 className="text-4xl font-extrabold text-center mb-2">
         Live Traffic Dashboard
       </h2>
@@ -96,11 +95,12 @@ export default function Dashboard() {
       </p>
 
       {/* Map */}
-      <div className="w-full h-96 mb-8 rounded-2xl overflow-hidden shadow-xl border border-slate-700">
+      <div className="w-full h-96 mb-8 rounded-2xl overflow-hidden border-4 border-blue-500 shadow-xl transition-transform transform hover:scale-105 hover:shadow-cyan-500/50 hover:-translate-y-1">
         <MapContainer
           center={[20.5937, 78.9629]}
           zoom={5}
-          className="w-full h-full"
+          className="w-full h-full rounded-2xl"
+          scrollWheelZoom={false} // fix navbar overlap
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -110,7 +110,7 @@ export default function Dashboard() {
             .filter((v) => v.lat != null && v.lng != null)
             .map((v) => (
               <Marker key={v.id || v._id} position={[v.lat, v.lng]}>
-                <Popup>
+                <Popup className="bg-gray-900 text-white p-2 rounded-lg shadow-lg">
                   <b>Vehicle ID:</b> {v.id || v._id} <br />
                   <b>Speed:</b> {v.speed || 0} km/h <br />
                   <b>Status:</b> {v.status || "Unknown"}
@@ -123,7 +123,7 @@ export default function Dashboard() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Congestion */}
-        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-xl border border-slate-700 hover:shadow-blue-500/30 transition-all">
+        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-lg border border-slate-700 transition-all duration-300 hover:shadow-cyan-500/50 hover:-translate-y-1 hover:scale-105">
           <h3 className="text-xl font-semibold mb-4 text-blue-400">
             Congestion Levels
           </h3>
@@ -141,7 +141,7 @@ export default function Dashboard() {
         </div>
 
         {/* Fines */}
-        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-xl border border-slate-700 hover:shadow-blue-500/30 transition-all">
+        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-lg border border-slate-700 transition-all duration-300 hover:shadow-cyan-500/50 hover:-translate-y-1 hover:scale-105">
           <h3 className="text-xl font-semibold mb-4 text-blue-400">
             Fines Collected
           </h3>
@@ -163,7 +163,7 @@ export default function Dashboard() {
       {/* Second Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Violation Types */}
-        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-xl border border-slate-700 hover:shadow-blue-500/30 transition-all">
+        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-lg border border-slate-700 transition-all duration-300 hover:shadow-cyan-500/50 hover:-translate-y-1 hover:scale-105">
           <h3 className="text-xl font-semibold mb-4 text-blue-400">
             Violation Types
           </h3>
@@ -189,7 +189,7 @@ export default function Dashboard() {
         </div>
 
         {/* Live Alerts */}
-        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-xl border border-slate-700 hover:shadow-blue-500/30 transition-all max-h-[400px] overflow-y-auto">
+        <div className="bg-[#1e293b] rounded-2xl p-6 shadow-lg border border-slate-700 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-500/50 scrollbar-track-gray-800 transition-all duration-300 hover:shadow-cyan-500/50 hover:-translate-y-1 hover:scale-105">
           <h3 className="text-xl font-semibold mb-4 text-blue-400">
             🚨 Live Violation Alerts
           </h3>

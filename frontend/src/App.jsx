@@ -10,9 +10,9 @@ import { useContext } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero.jsx";
-
+import Features from "./pages/Features.jsx";
+import Vehicle from "./pages/Vehicle.jsx"; // Vehicle page in JSX
 import Dashboard from "./pages/Dashboard";
-import Vehicles from "./pages/Vehicles";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -44,15 +44,52 @@ function Layout({ children }) {
 // ✅ Main App
 function App() {
   return (
-    <div className="">
-      <AuthProvider>
+    <AuthProvider>
       <Router>
         <Layout>
           <Routes>
             {/* Landing page */}
             <Route path="/" element={<Hero />} />
 
-            {/* Protected routes */}
+            {/* Features page (public) */}
+            <Route path="/features" element={<Features />} />
+            
+            {/* Feature subpages */}
+            <Route
+              path="/features/vehicles"
+              element={
+                <PrivateRoute>
+                  <Vehicle />
+                </PrivateRoute>
+              }
+            />
+            {/* Add placeholders for other feature subpages if needed */}
+            <Route
+              path="/features/fines"
+              element={
+                <PrivateRoute>
+                  <div className="text-white p-8">Fine Management Page (Coming Soon)</div>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/features/toll"
+              element={
+                <PrivateRoute>
+                  <div className="text-white p-8">Toll Calculator Page (Coming Soon)</div>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/features/transactions"
+              element={
+                <PrivateRoute>
+                  <div className="text-white p-8">Transaction History Page (Coming Soon)</div>
+                </PrivateRoute>
+              }
+            />
+
+            {/* Protected dashboard */}
             <Route
               path="/dashboard"
               element={
@@ -61,27 +98,17 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route
-              path="/vehicles"
-              element={
-                <PrivateRoute>
-                  <Vehicles />
-                </PrivateRoute>
-              }
-            />
 
             {/* Auth pages */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* Optional: fallback for unknown routes */}
+            {/* Fallback for unknown routes */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Layout>
       </Router>
     </AuthProvider>
-    </div>
-    
   );
 }
 
