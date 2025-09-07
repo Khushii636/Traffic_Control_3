@@ -100,7 +100,7 @@ const Hero = () => {
               </Link>
             )}
 
-            <Link to="/features">
+            <Link to="/LearnMore">
               <Button
                 size="lg"
                 className="bg-gray-800 text-white border border-gray-600 hover:bg-gray-700"

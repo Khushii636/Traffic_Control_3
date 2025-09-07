@@ -12,9 +12,13 @@ import Footer from "./components/Footer";
 import Hero from "./components/Hero.jsx";
 import Features from "./pages/Features.jsx";
 import Vehicle from "./pages/Vehicle.jsx"; // Vehicle page in JSX
+import Fine from "./pages/Fine.jsx";
+import Toll from "./pages/Toll.jsx";
+import Transaction from "./pages/Transaction.jsx";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import LearnMore from "./pages/LearnMore";
 
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 
@@ -68,7 +72,7 @@ function App() {
               path="/features/fines"
               element={
                 <PrivateRoute>
-                  <div className="text-white p-8">Fine Management Page (Coming Soon)</div>
+                  <Fine />
                 </PrivateRoute>
               }
             />
@@ -76,7 +80,7 @@ function App() {
               path="/features/toll"
               element={
                 <PrivateRoute>
-                  <div className="text-white p-8">Toll Calculator Page (Coming Soon)</div>
+                  <Toll />
                 </PrivateRoute>
               }
             />
@@ -84,7 +88,7 @@ function App() {
               path="/features/transactions"
               element={
                 <PrivateRoute>
-                  <div className="text-white p-8">Transaction History Page (Coming Soon)</div>
+                  <Transaction />
                 </PrivateRoute>
               }
             />
@@ -95,6 +99,15 @@ function App() {
               element={
                 <PrivateRoute>
                   <Dashboard />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/LearnMore"
+              element={
+                <PrivateRoute>
+                  <LearnMore />
                 </PrivateRoute>
               }
             />
