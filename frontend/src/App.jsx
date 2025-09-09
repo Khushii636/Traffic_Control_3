@@ -19,6 +19,8 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import LearnMore from "./pages/LearnMore";
+import Analytics from "./pages/Analytics.jsx";
+import Contact from "./pages/Contact.jsx";
 
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 
@@ -46,80 +48,88 @@ function Layout({ children }) {
 }
 
 // ✅ Main App
+function AppRoutes() {
+  const { user } = useContext(AuthContext); // ✅ check if logged in
+
+  return (
+    <Layout>
+      <Routes>
+        {/* Landing page OR redirect to dashboard */}
+        <Route
+          path="/"
+          element={user ? <Navigate to="/dashboard" replace /> : <Hero />}
+        />
+
+        {/* Features page (public) */}
+        <Route path="/features" element={<Features />} />
+        <Route path="/contact" element={<Contact />} />
+
+        {/* Feature subpages (protected) */}
+        <Route
+          path="/features/vehicles"
+          element={
+            <PrivateRoute>
+              <Vehicle />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/features/fines"
+          element={
+            <PrivateRoute>
+              <Fine />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/features/toll"
+          element={
+            <PrivateRoute>
+              <Toll />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/features/transactions"
+          element={
+            <PrivateRoute>
+              <Transaction />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Protected dashboard */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/analytics" element={<Analytics />} />
+
+        {/* ✅ Public Learn More page */}
+        <Route path="/LearnMore" element={<LearnMore />} />
+
+        {/* Auth pages */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+
+        {/* Fallback for unknown routes */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Layout>
+  );
+}
+
+// ✅ Wrap App with AuthProvider & Router
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <Layout>
-          <Routes>
-            {/* Landing page */}
-            <Route path="/" element={<Hero />} />
-
-            {/* Features page (public) */}
-            <Route path="/features" element={<Features />} />
-            
-            {/* Feature subpages */}
-            <Route
-              path="/features/vehicles"
-              element={
-                <PrivateRoute>
-                  <Vehicle />
-                </PrivateRoute>
-              }
-            />
-            {/* Add placeholders for other feature subpages if needed */}
-            <Route
-              path="/features/fines"
-              element={
-                <PrivateRoute>
-                  <Fine />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/features/toll"
-              element={
-                <PrivateRoute>
-                  <Toll />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/features/transactions"
-              element={
-                <PrivateRoute>
-                  <Transaction />
-                </PrivateRoute>
-              }
-            />
-
-            {/* Protected dashboard */}
-            <Route
-              path="/dashboard"
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              }
-            />
-
-            <Route
-              path="/LearnMore"
-              element={
-                <PrivateRoute>
-                  <LearnMore />
-                </PrivateRoute>
-              }
-            />
-
-            {/* Auth pages */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-
-            {/* Fallback for unknown routes */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Layout>
+        <AppRoutes />
       </Router>
     </AuthProvider>
   );

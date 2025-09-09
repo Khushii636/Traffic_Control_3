@@ -1,6 +1,7 @@
-import { useState, useContext } from "react"; 
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
+import { ArrowLeft } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -40,23 +41,36 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 relative overflow-hidden">
-      {/* Decorative blurred circles (background aesthetic) */}
+      {/* Decorative blurred circles */}
       <div className="absolute top-20 left-20 w-60 h-60 bg-blue-400/30 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-20 right-20 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
 
       <div className="relative z-10 bg-white/20 backdrop-blur-2xl p-10 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] w-full max-w-md border border-white/40 hover:border-blue-300/40 transition-all hover:shadow-[0_8px_40px_rgba(59,130,246,0.3)]">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate("/")}
+          className="mb-6 flex items-center gap-2 text-blue-800 hover:text-blue-900 transition font-medium"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Home
+        </button>
+
         <h2 className="text-4xl font-extrabold mb-6 text-center text-blue-800 tracking-tight drop-shadow-sm">
           Welcome Back
         </h2>
 
         {error && (
-          <p className="text-red-500 text-sm mb-4 text-center font-medium animate-pulse">{error}</p>
+          <p className="text-red-500 text-sm mb-4 text-center font-medium animate-pulse">
+            {error}
+          </p>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email */}
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-900/80">Email</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-900/80">
+              Email
+            </label>
             <input
               type="email"
               value={email}
@@ -69,7 +83,9 @@ export default function Login() {
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-900/80">Password</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-900/80">
+              Password
+            </label>
             <input
               type="password"
               value={password}
@@ -87,7 +103,7 @@ export default function Login() {
             className={`w-full py-3.5 rounded-xl font-semibold tracking-wide shadow-md transform transition-all border border-white/40 backdrop-blur-sm ${
               loading
                 ? "bg-blue-400/50 text-white/70 cursor-not-allowed"
-                : "bg-gradient-to-r from-blue-500/50 to-blue-700/50 text-white hover:scale-[1.03] hover:shadow-lg hover:border-blue-300/50"
+                : "bg-gradient-to-r from-blue-500/70 to-blue-700/70 text-white hover:scale-[1.03] hover:shadow-lg hover:border-blue-300/50"
             }`}
           >
             {loading ? "Logging in..." : "Login"}

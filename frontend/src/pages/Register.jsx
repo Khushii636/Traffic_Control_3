@@ -1,13 +1,15 @@
-// src/pages/Register.js
+// src/pages/Register.jsx
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { ArrowLeft } from "lucide-react";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -29,7 +31,7 @@ export default function Register() {
       }
 
       login(data); // auto login after register
-      navigate("/"); // redirect to dashboard
+      navigate("/"); // go back to home/dashboard
     } catch (err) {
       setError(err.message);
     }
@@ -37,11 +39,20 @@ export default function Register() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 relative overflow-hidden">
-      {/* Background glowing circles for glassy vibe */}
+      {/* Decorative glowing circles */}
       <div className="absolute top-16 left-24 w-60 h-60 bg-blue-400/30 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-16 right-24 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
 
       <div className="relative z-10 bg-white/20 backdrop-blur-2xl p-10 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] w-full max-w-md border border-white/40 hover:border-blue-300/40 transition-all hover:shadow-[0_8px_40px_rgba(59,130,246,0.3)]">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate("/")}
+          className="mb-6 flex items-center gap-2 text-blue-800 hover:text-blue-900 transition font-medium"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Home
+        </button>
+
         <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-blue-700 to-indigo-500 bg-clip-text text-transparent tracking-tight drop-shadow-sm">
           Register
         </h2>
@@ -106,12 +117,12 @@ export default function Register() {
 
         <p className="text-sm text-gray-800/80 mt-6 text-center">
           Already have an account?{" "}
-          <a
-            href="/login"
+          <Link
+            to="/login"
             className="text-blue-700 font-bold hover:underline hover:text-blue-900 transition-colors"
           >
             Login
-          </a>
+          </Link>
         </p>
       </div>
     </div>

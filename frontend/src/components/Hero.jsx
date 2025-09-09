@@ -17,7 +17,8 @@ const Badge = ({ children, className = "" }) => {
 
 // ✅ Simple Button component
 const Button = ({ children, size = "md", className = "" }) => {
-  const base = "inline-flex items-center justify-center font-semibold rounded-2xl transition";
+  const base =
+    "inline-flex items-center justify-center font-semibold rounded-2xl transition";
 
   const sizes = {
     sm: "px-3 py-1.5 text-sm",
@@ -100,6 +101,7 @@ const Hero = () => {
               </Link>
             )}
 
+            {/* ✅ Always available Learn More */}
             <Link to="/LearnMore">
               <Button
                 size="lg"
