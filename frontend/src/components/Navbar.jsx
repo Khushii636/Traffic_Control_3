@@ -19,6 +19,11 @@ const Navigation = () => {
     setIsMenuOpen(false);
   }, [location.pathname]);
 
+  // 🛑 If logged-in user is admin, hide navbar
+  if (user && user.role === "admin") {
+    return null; // nothing gets rendered
+  }
+
   return (
     <nav
       className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-lg border-b border-gray-800 shadow-lg"

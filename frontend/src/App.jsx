@@ -22,6 +22,9 @@ import LearnMore from "./pages/LearnMore";
 import Analytics from "./pages/Analytics.jsx";
 import Contact from "./pages/Contact.jsx";
 
+import AdminSetup from "./pages/AdminSetup";
+
+
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 
 // ✅ PrivateRoute wrapper for protected pages
@@ -59,6 +62,8 @@ function AppRoutes() {
           path="/"
           element={user ? <Navigate to="/dashboard" replace /> : <Hero />}
         />
+
+        <Route path="/admin-setup" element={<AdminSetup />} />
 
         {/* Features page (public) */}
         <Route path="/features" element={<Features />} />
@@ -123,6 +128,8 @@ function AppRoutes() {
     </Layout>
   );
 }
+
+
 
 // ✅ Wrap App with AuthProvider & Router
 function App() {
